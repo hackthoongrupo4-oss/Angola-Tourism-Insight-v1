@@ -18,7 +18,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Nome</th>
+                            <th>Nome2</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
