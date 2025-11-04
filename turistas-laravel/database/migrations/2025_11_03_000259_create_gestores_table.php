@@ -16,7 +16,7 @@ return new class extends Migration
              $table->unsignedBigInteger('user_id')->unique(); // liga ao usuário
             $table->unsignedBigInteger('provincia_id'); // liga à província
             
-            $table->timestamps();
+            
             // Chaves estrangeiras
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('provincia_id')->references('id')->on('provincias')->onDelete('cascade');
