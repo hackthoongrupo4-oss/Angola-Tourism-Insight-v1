@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemSugestaoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SugestaoController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard1',[UsuarioController::class,'index'] )->middleware(['auth', 'verified'])->name('dashboard1');
 
 Route::middleware('auth')->group(function () {
 

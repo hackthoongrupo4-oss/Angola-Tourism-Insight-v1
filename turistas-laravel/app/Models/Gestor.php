@@ -9,7 +9,7 @@ class Gestor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'provincia_id', 'cargo'];
+    protected $fillable = ['user_id', 'provincia_id',];
 
     public function provincia()
     {
