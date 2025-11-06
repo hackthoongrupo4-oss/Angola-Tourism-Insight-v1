@@ -7,7 +7,7 @@
                     document.write(new Date().getFullYear());
                   </script>
                   , Feito Com ❤️ Pela
-                  <a href="" target="_blank" class="footer-link fw-bolder">Baixeira</a>
+                  <a href="" target="_blank" class="footer-link fw-bolder">Grupo 4</a>
                 </div>
                 <div>
                  

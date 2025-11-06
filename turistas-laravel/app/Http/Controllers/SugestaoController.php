@@ -16,7 +16,7 @@ class SugestaoController extends Controller
     public function index()
     {
         $sugestaos = Sugestao::orderBy('created_at', 'desc')->paginate(10);
-        return view('app.dashboard.sugestaos.index', compact('sugestaos'));
+        return view('app.dashboard.paginas.adm.sugestoes.index', compact('sugestaos'));
     }
 
     public function create()

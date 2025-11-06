@@ -29,11 +29,11 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @forelse($users as $user)
+                        @forelse($gestores as $gestor)
                             <tr>
-                                <td><strong>{{ $user->name }}</strong></td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                <td><strong>{{ $gestor->user->name }}</strong></td>
+                                <td>{{ $gestor->user->email }}</td>
+                                <td>{{ $gestor->user->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -41,66 +41,27 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <!-- Editar (abre modal) -->
-                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editUserModal{{ $user->id }}">
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editUserModal{{$gestor->user->id }}">
                                                 <i class="bx bx-edit-alt me-1"></i> Editar
                                             </a>
 
                                             <!-- Eliminar (só para admin, se estiveres a usar spatie/roles) -->
                                             @role('admin')
-                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserModal{{ $user->id }}">
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteUserModal{{ $gestor->user->id }}">
                                                 <i class="bx bx-trash me-1"></i> Eliminar
                                             </a>
                                             @endrole
                                         </div>
                                     </div>
 
-                                    <!-- Edit Modal -->
-                                    <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel{{ $user->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Editar Usuário</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form method="POST" action="{{ route('users.update', $user->id) }}" onsubmit="let btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.innerText='Salvando...';">
-                                                        @method('PUT')
-                                                        @csrf
 
-                                                        <!-- Nome -->
-                                                        <div class="mb-3">
-                                                            <label for="name{{ $user->id }}" class="form-label">Nome Completo</label>
-                                                            <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ old('name', $user->name) }}" minlength="4" required pattern="^[^\s].{3,}$" title="O nome deve ter pelo menos 4 caracteres e não pode começar com espaço.">
-                                                        </div>
-
-                                                        <!-- Email -->
-                                                        <div class="mb-3">
-                                                            <label for="email{{ $user->id }}" class="form-label">Email</label>
-                                                            <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ old('email', $user->email) }}" required>
-                                                        </div>
-
-                                                        <!-- Password (opcional) -->
-                                                        <div class="mb-3">
-                                                            <label for="password{{ $user->id }}" class="form-label">Password (deixe vazio para manter)</label>
-                                                            <input type="password" id="password{{ $user->id }}" name="password" class="form-control" placeholder="Nova password (opcional)">
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Salvar</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <!-- Delete Modal + Form -->
-                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display:inline-block;" onsubmit="let btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.innerText='Eliminando...';">
+                                    <form method="POST" action="{{ route('usuarios.destroy', $gestor->user_id) }}" style="display:inline-block;" onsubmit="let btn=this.querySelector('button[type=submit]');btn.disabled=true;btn.innerText='Eliminando...';">
                                         @csrf
                                         @method('DELETE')
 
-                                        <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal fade" id="deleteUserModal{{$gestor->user->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -108,7 +69,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Deseja realmente eliminar o usuário <strong>{{ $user->name }}</strong> ({{ $user->email }})?</p>
+                                                        <p>Deseja realmente eliminar o usuário <strong>{{$gestor->user->name }}</strong> ({{ $gestor->user->email }})?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-primary">Eliminar</button>
@@ -130,7 +91,7 @@
                 </table>
 
                 <div class="pagination-container m-3">
-                    {{ $users->links('pagination::bootstrap-5') }}
+                    {{ $gestores->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
@@ -154,6 +115,7 @@
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Digite o seu nome completo"  minlength="4" required
          pattern="^[^\s].{3,}$"
          title="O nome deve ter pelo menos 4 caracteres e não pode começar com espaço.">
+         <input type="text" name="provincia_id" value="{{$provincia->id}}" hidden>
                             @if($errors->has('name'))
                                 <div class="text-danger mt-1">
                                     {{ $errors->first('name') }}
@@ -187,6 +149,7 @@
                         <div class="mb-3 container-password">
                             <label for="password_confirmation" class="form-label">Confirmar Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirme a tua password" required>
+                           <input type="text" name="chave" value="1" hidden>
                             @if($errors->has('password_confirmation'))
                                 <div class="text-danger mt-1">
                                     {{ $errors->first('password_confirmation') }}
@@ -201,10 +164,7 @@
                         <div class="container-login-button">
                             <button class="btn btn-secondary w-100" type="submit">Registrar</button>
 
-                            <div class="mt-2 text-center">
-                                <span class="link-secondary text-decoration-none">Já tem uma conta?</span>
-                                <a href="{{ route('login') }}" class="link-secondary"> Entrar</a>
-                            </div>
+                            
                         </div>
                     </form>
                 </div>

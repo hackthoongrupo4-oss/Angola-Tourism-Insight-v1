@@ -42,7 +42,7 @@
                                             
                                             @endrole
 
-                                <a class="dropdown-item" href="{{route('municipios.index2',$provincia->slug)}}"
+                                <a class="dropdown-item" href="{{route('provincias.usuario',$provincia->id)}}"
                              
                               ><i class="bx bx-edit-alt me-1"></i> Usuarios</a
                               >

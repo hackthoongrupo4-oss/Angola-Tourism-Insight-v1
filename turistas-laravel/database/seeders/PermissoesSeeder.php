@@ -21,7 +21,8 @@ class PermissoesSeeder extends Seeder
         $admin=Role::create(['name' =>'admin']);
         
    
-        $gestor=Role::create(['name' =>'prestador']);
+        $prestador=Role::create(['name' =>'prestador']);
+                $gestor=Role::create(['name' =>'gestor']);
         
     }
 }

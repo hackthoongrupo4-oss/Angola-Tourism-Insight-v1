@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Gestor extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['user_id', 'provincia_id',];
+    protected $table="gestores";
+        protected $fillable = ['user_id', 'provincia_id',];
 
     public function provincia()
     {

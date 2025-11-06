@@ -15,4 +15,7 @@ class Provincia extends Model
     {
         return $this->hasMany(Gestor::class);
     }
+     public function historicos(){
+        return $this->hasMany(Historico::class);
+    }
 }

@@ -24,7 +24,7 @@ class ItemSugestaoController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
 
-        return view('app.dashboard.itens_sugestao.index', [
+        return view('app.dashboard.paginas.adm.itemSugestao.index', [
             'sugestao' => $sugestao,
             'itens' => $itens,
         ]);

@@ -43,4 +43,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function gestor(){
+        return $this->hasOne(Gestor::class,'user_id');
+    }
+    public function historicos(){
+        return $this->hasMany(Historico::class);
+    }
+
+    public function prestador()
+{
+    return $this->hasOne(Prestador::class, 'user_id');
+}
 }

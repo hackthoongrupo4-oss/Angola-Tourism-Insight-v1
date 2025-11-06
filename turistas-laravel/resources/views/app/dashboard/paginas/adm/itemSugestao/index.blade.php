@@ -38,6 +38,10 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+
+                                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item->id }}">
+                            <i class="bx bx-show me-1"></i> Ver
+                        </a>
                                                 <!-- Editar -->
                                                 <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Editar
@@ -49,6 +53,35 @@
                                                 </a>
                                             </div>
                                         </div>
+
+
+
+
+
+
+ <!-- View Modal: mostra a descrição completa -->
+                <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Descrição Completa</h5>
+                                <button type="button" class="btn-close fechar" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                {{-- preserva quebras de linha e escapa HTML --}}
+                                <div class="mb-3">
+                                    {!! nl2br(e($item->descricao)) !!}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" data-bs-dismiss="modal">Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
 
                                         <!-- Edit Modal -->
                                         <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
