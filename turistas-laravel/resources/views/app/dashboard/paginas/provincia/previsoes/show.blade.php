@@ -84,11 +84,9 @@
                         <h6 class="mb-3 fw-semibold"><i class="bx bx-list-ul me-1"></i> Parâmetros Rápidos</h6>
 
                         <div class="row">
-                            <div class="col-6 mb-2"><small class="text-muted">Data</small><div>{{ $params['data'] ?? ($params['date'] ?? ($params['Data'] ?? '—')) }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Ano</small><div>{{ $params['ano'] ?? '—' }}</div></div>
+                             <div class="col-6 mb-2"><small class="text-muted">Ano</small><div>{{ $params['ano'] ?? '—' }}</div></div>
                             <div class="col-6 mb-2"><small class="text-muted">Mês</small><div>{{ $params['mes'] ?? '—' }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Localidade</small><div>{{ $params['localidade'] ?? '—' }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Precipitação (mm)</small><div>{{ $params['precipitacao'] ?? '—' }}</div></div>
+                              <div class="col-6 mb-2"><small class="text-muted">Precipitação (mm)</small><div>{{ $params['precipitacao'] ?? '—' }}</div></div>
                             <div class="col-6 mb-2"><small class="text-muted">Temperatura média (°C)</small><div>{{ $params['temperatura_media'] ?? '—' }}</div></div>
                         </div>
 

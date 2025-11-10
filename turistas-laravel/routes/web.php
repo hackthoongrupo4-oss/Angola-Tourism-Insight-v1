@@ -33,6 +33,8 @@ Route::get('/create_user',[UsuarioController::class,'create_user'] )->middleware
 
 
 Route::middleware(['auth'])->group(function() {
+    //api
+
     Route::patch('/arquivos/{arquivo}/status', [Arquivos2Controller::class, 'updateStatus'])->name('arquivos2.updateStatus');
 });
 Route::middleware('auth')->group(function () {

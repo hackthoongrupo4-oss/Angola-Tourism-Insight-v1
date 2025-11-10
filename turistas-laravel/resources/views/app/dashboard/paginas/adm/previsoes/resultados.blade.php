@@ -53,7 +53,7 @@ $extremo="Medio";
             <div class="card-body text-center py-5">
                 <h2 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Previsão de Turistas</h2>
                 <p class="mb-2 fs-5">Número estimado:</p>
-                <h1 class="fw-bold text-primary animate__animated animate__zoomIn">{{ number_format($n_turistas, 0, ',', '.') }}</h1>
+                <h1 class="fw-bold text-primary animate__animated animate__zoomIn">{{ number_format($n_turistas, 2, ',', '.') }}</h1>
                 <span class="badge bg-{{ $badgeColor }} fs-5 mt-2 py-2 px-3 animate__animated animate__fadeIn">
                     {{ $icon }} {{ $classificacao }}
                 </span>
