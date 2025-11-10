@@ -1,4 +1,4 @@
-@extends('app.dashboard.layouts.app')
+ @extends('app.dashboard.layouts.app')
 @section('title','Criar Previsão')
 @section('content')
 <div class="content-wrapper">
@@ -23,11 +23,7 @@
           @csrf
 
           <div class="row g-3">
-            {{-- Data (date) --}}
-            <div class="col-md-4">
-              <label for="data" class="form-label">Data</label>
-              <input type="date" id="data" name="data" class="form-control" value="{{ old('data') }}" required>
-            </div>
+            
 
             {{-- Ano --}}
             <div class="col-md-2">
@@ -51,8 +47,6 @@
                 @endforeach
               </select>
             </div>
-
-          
 
             {{-- Precipitação --}}
             <div class="col-md-4">
@@ -102,7 +96,7 @@
               <input type="number" step="0.01" id="temp_minima_historica" name="temp_minima_historica" class="form-control" value="{{ old('temp_minima_historica') }}" required>
             </div>
 
-            {{-- Feriado (Sim/Não) --}}
+            {{-- Feriado --}}
             <div class="col-md-3">
               <label for="feriado" class="form-label">Feriado?</label>
               <select id="feriado" name="feriado" class="form-select" required>
@@ -111,30 +105,8 @@
               </select>
             </div>
 
-            {{-- Nome do feriado (aparece só se feriado=Sim) --}}
-            <div class="col-md-5" id="feriado_nome_container" style="display: none;">
-              <label for="nome_feriado" class="form-label">Nome do Feriado</label>
-              <select id="nome_feriado" name="nome_feriado" class="form-select">
-                <option value="" disabled {{ old('nome_feriado') ? '' : 'selected' }}>Seleciona o feriado</option>
-                @php
-                  $feriados = [
-                    'Ano Novo',
-                    'Início da Luta Armada',
-                    'Dia Internacional da Mulher',
-                    'Dia da Paz e Reconciliação Nacional',
-                    'Dia do Trabalhador',
-                    'Dia do Herói Nacional',
-                    'Independência Nacional',
-                    'Natal e da Família'
-                  ];
-                @endphp
-                @foreach($feriados as $f)
-                  <option value="{{ $f }}" {{ old('nome_feriado') === $f ? 'selected' : '' }}>{{ $f }}</option>
-                @endforeach
-              </select>
-            </div>
+           
 
-          
           </div>
 
           <div class="mt-4 d-flex gap-2">
@@ -144,64 +116,9 @@
         </form>
       </div>
     </div>
-
   </div>
 </div>
 
-{{-- Scripts --}}
 
-<script>
-  (function(){
-    const dataEl = document.getElementById('data');
-    const anoEl = document.getElementById('ano');
-    const mesEl = document.getElementById('mes');
 
-    const feriadoEl = document.getElementById('feriado');
-    const feriadoContainer = document.getElementById('feriado_nome_container');
-
-    // mostra/oculta nome do feriado consoante a opção
-    function toggleFeriado() {
-      if(feriadoEl.value === '1') {
-        feriadoContainer.style.display = '';
-        document.getElementById('nome_feriado').setAttribute('required','required');
-      } else {
-        feriadoContainer.style.display = 'none';
-        document.getElementById('nome_feriado').removeAttribute('required');
-      }
-    }
-    feriadoEl.addEventListener('change', toggleFeriado);
-    // inicialização (caso old() tenha definido feriado=1)
-    if('{{ old("feriado") }}' === '1') {
-      feriadoEl.value = '1';
-      toggleFeriado();
-    }
-
-    // ao escolher a data, preencher ano e mês automaticamente
-    if(dataEl){
-      dataEl.addEventListener('change', function(){
-        if(!this.value) return;
-        const d = new Date(this.value);
-        anoEl.value = d.getFullYear();
-        mesEl.value = d.getMonth() + 1; // mês em 1..12
-      });
-    }
-
-    // se houver old('data') -> preencher ano/mes ao carregar
-    document.addEventListener('DOMContentLoaded', function(){
-      // marcar feriado se veio do servidor
-      toggleFeriado();
-      const dataVal = '{{ old("data") }}';
-      if(dataVal){
-        try{
-          const d = new Date(dataVal);
-          if(!isNaN(d)){
-            anoEl.value = d.getFullYear();
-            mesEl.value = d.getMonth() + 1;
-          }
-        }catch(e){}
-      }
-    });
-  })();
-</script>
- 
 @endsection

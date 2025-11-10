@@ -58,7 +58,7 @@
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <h3 class="mb-1 fw-bold">Previsão: <span class="text-primary">{{ number_format($historico->n_turistas ?? 0, 0, ',', '.') }}</span></h3>
+                                <h3 class="mb-1 fw-bold">Previsão: <span class="text-primary">{{ number_format($historico->n_turistas ?? 0, 2, ',', '.') }}</span></h3>
                                 <p class="mb-1 text-muted">Estimativa de turistas estrangeiros para a província</p>
                                 <div class="mt-2">
                                     <span class="badge bg-{{ $badgeColor }} fs-6 py-2 px-3">{{ $icon }} {{ $classificacao }}</span>
@@ -84,11 +84,9 @@
                         <h6 class="mb-3 fw-semibold"><i class="bx bx-list-ul me-1"></i> Parâmetros Rápidos</h6>
 
                         <div class="row">
-                            <div class="col-6 mb-2"><small class="text-muted">Data</small><div>{{ $params['data'] ?? ($params['date'] ?? ($params['Data'] ?? '—')) }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Ano</small><div>{{ $params['ano'] ?? '—' }}</div></div>
+                              <div class="col-6 mb-2"><small class="text-muted">Ano</small><div>{{ $params['ano'] ?? '—' }}</div></div>
                             <div class="col-6 mb-2"><small class="text-muted">Mês</small><div>{{ $params['mes'] ?? '—' }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Localidade</small><div>{{ $params['localidade'] ?? '—' }}</div></div>
-                            <div class="col-6 mb-2"><small class="text-muted">Precipitação (mm)</small><div>{{ $params['precipitacao'] ?? '—' }}</div></div>
+                             <div class="col-6 mb-2"><small class="text-muted">Precipitação (mm)</small><div>{{ $params['precipitacao'] ?? '—' }}</div></div>
                             <div class="col-6 mb-2"><small class="text-muted">Temperatura média (°C)</small><div>{{ $params['temperatura_media'] ?? '—' }}</div></div>
                         </div>
 

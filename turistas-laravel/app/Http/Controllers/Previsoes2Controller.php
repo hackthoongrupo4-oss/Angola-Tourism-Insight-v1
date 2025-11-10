@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Historico;
 use App\Models\Provincia;
 use App\Models\Sugestao;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class Previsoes2Controller extends Controller
 {
@@ -26,65 +28,71 @@ class Previsoes2Controller extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'data' => 'required|date',
-            'ano' => 'required|integer|min:1900|max:2100',
-            'mes' => 'required|integer|min:1|max:12',
-            //'localidade' => 'required|string|max:191',
-            'precipitacao' => 'required|numeric|min:0',
-            'precipitacao_media_historica' => 'nullable|numeric|min:0',
-            'temperatura_media' => 'required|numeric',
-            'temperatura_media_historica' => 'nullable|numeric',
-            'temp_maxima' => 'required|numeric',
-            'temp_minima' => 'required|numeric',
-            'temp_maxima_historica' => 'nullable|numeric',
-            'temp_minima_historica' => 'nullable|numeric',
-            'feriado' => 'required|in:0,1',
-            'nome_feriado' => 'nullable|string|max:200',
-        ];
+        try{
+     $rules = [
+ 
+    'ano' => 'required|integer|min:1900|max:2100',
+    'mes' => 'required|integer|min:1|max:12',
+    'precipitacao' => 'required|numeric|min:0',
+    'precipitacao_media_historica' => 'nullable|numeric|min:0',
+    'temperatura_media' => 'required|numeric',
+    'temperatura_media_historica' => 'nullable|numeric',
+    'temp_maxima' => 'required|numeric',
+    'temp_minima' => 'required|numeric',
+    'temp_maxima_historica' => 'nullable|numeric',
+    'temp_minima_historica' => 'nullable|numeric',
+    'feriado' => 'required|in:0,1',
+  'localidade_Benguela' => 'nullable|in:0,1',
+    'localidade_Luanda' => 'nullable|in:0,1',
+    'localidade_Lubango' => 'nullable|in:0,1',
+];
+
 $data = $request->validate($rules);
-     /*   
 
-        // se o campo nome_feriado veio via select com outro nome
-        if ($request->filled('nome_feriado_select') && $request->nome_feriado_select !== 'Outro') {
-            $data['nome_feriado'] = $request->nome_feriado_select;
-        }
+ 
+ //dd($request->localidade_Benguela,$request->localidade_Luanda,$request->localidade_Lubango);
 
-        // se feriado = 0, limpar nome_feriado
-        if ((string)$data['feriado'] === '0') {
-            $data['nome_feriado'] = null;
-        }
+ $payload = [
+        "ano" => $request->ano,
+        "mes" => $request->mes,
+        "precipitacao" => $request->precipitacao,
+        "precipitacao_media_historica" => $request->precipitacao_media_historica,
+        "temperatura_media" => $request->temperatura_media,
+        "temperatura_media_historica" => $request->temperatura_media_historica,
+        "temp_maxima" => $request->temp_maxima,
+        "temp_minima" =>$request->temp_minima,
+        "temp_maxima_historica" => $request->temp_maxima_historica,
+        "temp_minima_historica" => $request->temp_minima_historica,
+        "feriado" => $request->feriado,
+        "localidade_Benguela" => $request->localidade_Benguela,
+        "localidade_Luanda" => $request->localidade_Luanda,
+        "localidade_Lubango" => $request->localidade_Lubango
+    ];
 
-        // converter data para formato correto (opcional)
-        $data['data'] = Carbon::parse($data['data'])->toDateString();
 
-        // associar user_id se necessário
-        $data['user_id'] = Auth::id();
+     try {
+            // Chamada para a API Flask (rodando localmente na porta 5000)
+            $response = Http::post('http://127.0.0.1:5000/prever', $payload);
 
-        // criar previsao
-       // $previsao = Previsao::create($data);
-
-        // --- Opcional: enviar para API externa para obter resultado/forecast imediato ---
-        // Configure a URL em config/services.php -> 'previsao_api' => ['url' => env('PREVISAO_API_URL')]
-        // Se preferires usar, descomente e ajuste conforme necessário.
-        /*
-        try {
-            $apiUrl = config('services.previsao_api.url');
-            if ($apiUrl) {
-                $response = Http::timeout(10)->post($apiUrl, $previsao->toArray());
-                if ($response->successful()) {
-                    $result = $response->json();
-                    // Exemplo: armazenar o resultado (se tiver coluna) ou guardar em log
-                    // $previsao->update(['resultado' => json_encode($result)]);
-                    session()->flash('api_result', $result);
-                } else {
-                    Log::warning('API Previsao respondeu com status ' . $response->status());
-                }
+            if ($response->failed()) {
+                return back()->with('erro', 'Erro na API Flask: ' . $response->body());
             }
-        } catch (\Exception $e) {
-            Log::error('Erro ao chamar API de previsão: ' . $e->getMessage());
+
+            $respo = $response->json();
+
+            if(isset( $respo['erro'])){
+                return back()->with('erro', 'Erro na API Flask: ' .  $respo['erro']);
+            }
+
+            // Sucesso: você pode salvar no DB ou mostrar a previsão
+            $previsao =  $respo['previsao'] ?? null;
+ 
+           // return back()->with('sucesso', 'Previsão gerada: ' . $previsao);
+
+        } catch (Exception $e) {
+            // Captura qualquer erro de conexão ou exceção
+            return back()->with('erro', 'Erro ao conectar com a API Flask: ' . $e->getMessage());
         }
-        */
 
 
 
@@ -93,21 +101,23 @@ $max = 10000;
 $step = 500;
 
 // criar array com os valores possíveis
-$valores = range($min, $max, $step);
+//$valores = range($min, $max, $step);
 
 // pegar um valor aleatório do array
-$aleatorio = $valores[array_rand($valores)];
+//$aleatorio = $valores[array_rand($valores)];
 
 $extremo="";
-if($aleatorio<=2500 && $aleatorio>=1000){
+if($previsao<=2500 && $previsao>=1000){
 $extremo="Baixo";
-}else if($aleatorio<=7500 && $aleatorio>2500){
+}else if($previsao<=7500 && $previsao>2500){
 $extremo="Medio";
-}else if($aleatorio>7500){
+}else if($previsao>7500){
 $extremo="Pico";
+}else{
+    $extremo="Pico";
 }
 
-$n_turistas=$aleatorio;
+$n_turistas=$previsao;
     $sugestao=Sugestao::where('nome',$extremo)->first();
     if ($sugestao) {
     // Pega até 4 itens aleatórios
@@ -127,7 +137,11 @@ Historico::create([
 ]);
 
     return  view('app.dashboard.paginas.adm.previsoes.resultados',compact('n_turistas','sugestao','itens','data'));
-   
+     } catch (Exception $e) {
+        dd($e->getMessage());
+            // Captura qualquer erro de conexão ou exceção
+            return back()->with('erro', 'Erro  : ' . $e->getMessage());
+        }
 }
 
 public function index(){
