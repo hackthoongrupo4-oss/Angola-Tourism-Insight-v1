@@ -96,26 +96,65 @@ $data = $request->validate($rules);
 
 
 
-        $min = 1000;
-$max = 10000;
-$step = 500;
+    if($request->localidade_Benguela){
+        $provincia=Provincia::where('nome','Benguela')->first();
+    }else if($request->localidade_Luanda){
+        $provincia=Provincia::where('nome','Luanda')->first();
+    }else if($request->localidade_Lubango){
+        $provincia=Provincia::where('nome','Huila')->first();
 
-// criar array com os valores possíveis
-//$valores = range($min, $max, $step);
+    }
 
-// pegar um valor aleatório do array
-//$aleatorio = $valores[array_rand($valores)];
-
+ 
 $extremo="";
-if($previsao<=2500 && $previsao>=1000){
-$extremo="Baixo";
-}else if($previsao<=7500 && $previsao>2500){
+ 
+        if($provincia->nome=="Benguela"){
+            $desvio1=444.1;
+            $maximo1=3747;
+            $minimo1=1256;
+            $media1=2345.5;
+            
+            if($previsao<($media1-$desvio1)){
+                $extremo="Baixo";
+            }else if($previsao>=($media1-$desvio1) && $previsao<=($media1+$desvio1)){
 $extremo="Medio";
-}else if($previsao>7500){
+            }else if($previsao>($media1+$desvio1)){
 $extremo="Pico";
-}else{
-    $extremo="Pico";
-}
+            }
+
+
+        }else if($provincia->nome=="Luanda"){
+            $desvio2=1583.06;
+            $maximo2=11279;
+            $minimo2=1913;
+            $media2=3434.4;
+            if($previsao<($media2-$desvio2)){
+$extremo="Baixo";
+            }else if($previsao>=($media2-$desvio2) && $previsao<=($media2+$desvio2)){
+$extremo="Medio";
+            }else if($previsao>($media2+$desvio2)){
+$extremo="Pico";
+            }
+
+        }else if($provincia->nome=="Huila"){
+            $desvio3=110.7;
+            $maximo3=926;
+            $minimo3=310;
+            $media3=580.8;
+
+            if($previsao<($media3-$desvio3)){
+$extremo="Baixo";
+            }else if($previsao>=($media3-$desvio3) && $previsao<=($media3+$desvio3)){
+$extremo="Medio";
+            }else if($previsao>($media3+$desvio3)){
+$extremo="Pico";
+            }
+
+        }else{
+            return redirect()->back()>with('error',"Não foi possivel encontrar uma provincia");
+        }
+
+
 
 $n_turistas=$previsao;
     $sugestao=Sugestao::where('nome',$extremo)->first();
@@ -136,7 +175,7 @@ Historico::create([
     'provincia_id' => $request->get('provincia_id') ?? (Auth::user()->gestor->provincia_id ?? null),
 ]);
 
-    return  view('app.dashboard.paginas.adm.previsoes.resultados',compact('n_turistas','sugestao','itens','data'));
+    return  view('app.dashboard.paginas.adm.previsoes.resultados',compact('n_turistas','sugestao','itens','data','extremo'));
      } catch (Exception $e) {
         dd($e->getMessage());
             // Captura qualquer erro de conexão ou exceção

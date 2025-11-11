@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         //$user=Auth::user();
        
 
-        return redirect()->route('dashboard1');
+               return redirect()->route('dashboard1')->with('success','Login feito com sucesso');
     }
 
     /**

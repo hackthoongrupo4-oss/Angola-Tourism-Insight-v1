@@ -83,7 +83,7 @@
                                 {{-- Outros tipos (xlsx, docx, zip...) mostrar info + link --}}
                                 <div class="p-4 bg-light rounded">
                                     <p class="mb-1"><strong>Tipo:</strong> {{ $mime ?: strtoupper($ext) }}</p>
-                                    <p class="mb-1"><strong>Tamanho:</strong> {{ humanFilesize($arquivo->size ?? 0) }}</p>
+                                    <p class="mb-1"><strong>Tamanho:</strong> {{ $humanFilesize($arquivo->size ?? 0) }}</p>
                                     <p class="mb-0 text-muted">Pré-visualização não disponível para este tipo de ficheiro. Faça download para visualizar.</p>
                                 </div>
                             @endif

@@ -4,20 +4,20 @@
 
 @php
     // classificar por n_turistas (mesma lógica do results)
-    $n = $historico->n_turistas ?? 0;
-    if ($n >= 8000) {
+    if ($historico->nome_sugestao=="Pico") {
         $classificacao = 'Pico';
         $badgeColor = 'danger';
         $icon = '🔥';
-    } elseif ($n >= 4000) {
+    } elseif ($historico->nome_sugestao=="Medio") {
         $classificacao = 'Médio';
         $badgeColor = 'warning';
         $icon = '⚡';
-    } else {
+    } else if($historico->nome_sugestao=="Baixo"){
         $classificacao = 'Baixo';
         $badgeColor = 'success';
         $icon = '🌿';
     }
+
 
     // garantir arrays para casting seguro
     $params = is_array($historico->data) ? $historico->data : (json_decode($historico->data, true) ?? []);

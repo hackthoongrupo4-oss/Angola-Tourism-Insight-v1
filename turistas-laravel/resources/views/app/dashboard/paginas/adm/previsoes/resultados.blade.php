@@ -11,15 +11,15 @@ $extremo="Medio";
 }else if($aleatorio>7500){
 */
     // Classificação do número de turistas
-    if ($n_turistas >= 8000) {
+    if ($extremo=="Pico") {
         $classificacao = 'Pico';
         $badgeColor = 'danger';
         $icon = '🔥';
-    } elseif ($n_turistas >= 3500) {
+    } elseif ($extremo=="Medio") {
         $classificacao = 'Médio';
         $badgeColor = 'warning';
         $icon = '⚡';
-    } else {
+    } else if($extremo=="Baixo"){
         $classificacao = 'Baixo';
         $badgeColor = 'success';
         $icon = '🌿';

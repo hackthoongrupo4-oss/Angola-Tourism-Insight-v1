@@ -76,7 +76,7 @@ class RegisteredUserController extends Controller
         DB::commit();
         return redirect()->route('dashboard1')->with('success',"Usuario adicionado com sucesso");
         }
-           Auth::login($user);
+             
         DB::commit();
         return redirect()->back()->with('success',"Usuario adicionado com sucesso");
         }catch(Exception $e){

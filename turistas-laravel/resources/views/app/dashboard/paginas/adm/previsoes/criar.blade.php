@@ -105,9 +105,6 @@
               </select>
             </div>
 
-           
-
- 
 
 {{-- Localidades --}}
 <div class="col-md-12 mt-3">
@@ -138,12 +135,7 @@ document.querySelectorAll('.localidade-checkbox').forEach(function(checkbox){
     });
 });
 </script>
-
-
-
-
           </div>
-
           <div class="mt-4 d-flex gap-2">
             <button type="submit" class="btn btn-primary">Gerar Previsão</button>
             <a href="{{ route('previsoes.index') }}" class="btn btn-outline-secondary">Cancelar</a>
