@@ -37,7 +37,7 @@ Route::get('/dashboard1',[UsuarioController::class,'index'] )->middleware(['auth
 
     Route::middleware('roles:admin,prestador')->group(function(){
 
-        Route::get('arquivos/{arquivo}/download', [ArquivoController::class, 'download'])->name('arquivos.download');
+        Route::get('arquivos5/{arquivo}/download', [ArquivoController::class, 'download'])->name('arquivos.download');
         Route::resource('arquivos2', Arquivos2Controller::class)->parameters(['arquivos2' => 'arquivo' ]);
         Route::resource('arquivos', ArquivoController::class);
     

@@ -1,4 +1,8 @@
-instruções de comando assim que abirir o projeto laravel : 
+Para rodar a api é só entrar na pasta api-modelo e abrir o arquivo index.py.
+Uma vez rodada a api  do modelo, entra no projeto turistas-laravel : 
+ 
+
+instruções de comando assim que abirir o projeto : 
 
 composer install
 php artisan key:generate
@@ -22,3 +26,4 @@ usuario da provincia de Huila
 huila@gmail.com
 senha:123456789
 
+O.B.S.: É orbigatoria a conexão com a internet

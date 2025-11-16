@@ -101,7 +101,7 @@ $provincia=Auth::user()->gestor->provincia;
 
         } catch (Exception $e) {
             // Captura qualquer erro de conexão ou exceção
-            return back()->with('erro', 'Erro ao conectar com a API Flask: ' . $e->getMessage());
+            return back()->with('error', 'Erro ao conectar com a API Flask: ' . $e->getMessage());
         }
 
 
